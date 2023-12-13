@@ -167,7 +167,7 @@ const newEmp = () => {
      }
      displayEmpT()
       console.log(answer.newDep)
-      startQ();
+     
      });
   })
 
@@ -213,7 +213,7 @@ const newRole = () => {
            }
            displayRoleT()
             console.log(answer.newDep)
-            startQ();
+            
            });
 });
 };
@@ -244,7 +244,7 @@ const newDeptQ = () => {
            }
             displyDeptT()
             console.log(answer.newDep)
-            startQ();
+            
            });
 });
 };

@@ -1,14 +1,9 @@
 const sequelize = require('./config/connection')
 const inquirer = require('inquirer');
-//const express = require('express');
+
 const mysql = require('mysql2')
 require("dotenv").config();
-//const PORT = process.env.PORT || 3001;
-//const app = express()
 
-/* // Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json()); */
 
 const db = mysql.createConnection(
   {
@@ -20,7 +15,7 @@ const db = mysql.createConnection(
   console.log(`Connected to the movies_db database.`)
 );
 
-//const db = mysql.sequelize
+
 console.log('sequelize connected to server')
 
   // First question
@@ -58,9 +53,17 @@ console.log('sequelize connected to server')
               newDeptQ();
             break;    
 
-            case "Add a new role"
+            case "Add a new role":
             newRole();
             break;
+
+            case "Add a new employee":
+            newEmp();
+            break;
+
+            case "Update employee role":
+              updateEmp();
+              break;
 
             default:
             console.log("hmm something went wrong, try again");   
@@ -72,6 +75,103 @@ console.log('sequelize connected to server')
     });
 
   } ;
+
+
+//Update Emp
+
+const updateEmp = () =>{
+  inquirer
+  .prompt([
+    {
+      name: "empIdU",
+      type: "input",
+      message: "What is the employee id of the employee you need to update?"
+    },
+    {
+      name: "updRole",
+      type: "input",
+      message: "What the new role of this employee?"
+    }
+  
+  
+  ]) 
+  .then((answer) => {
+
+
+  })
+
+
+
+}
+
+//Add a new Emp
+const newEmp = () => {
+  inquirer
+  .prompt([
+    {
+      name: "firstName",
+      type: "input",
+      message: "What is the first name of the new Employee?"
+    },
+    {
+      name: "lastName",
+      type: "input",
+      message: "What is the last name of the new Employee?"
+    },
+    {
+      name: "empDep",
+      type: "list",
+      message: "What department will they be a part of?",
+      choices: [
+        "Marketing",
+        "Finance",
+        "Community"
+      ]
+    },
+    {
+      name: "empRole",
+      type: "list",
+      message: "What is the role of the new Employee?",
+      choices: [
+        "Manager",
+        "Director",
+        "VP",
+        "Manager"
+      ]
+    },
+    {
+      name: "empManager",
+      type: "list",
+      message: "Select Manager if applicable",
+      choices: [
+        "Joe",
+        "Daisy",
+        "N/A"
+       
+      ]
+    },
+
+
+  ])
+  .then((answer) => {
+    const deptIdQ = `SELECT id FROM department WHERE department_name="${answer.empDep}"`
+    const deptId = deptIdQ.value
+    const roleID =`SELECT id FROM role WHERE title="${answer.empRole}" AND department_id=${deptId}`
+
+    const sqlNewEmp = `INSERT INTO employee(first_name, last_name, ${roleID})`
+
+    db.query(sqlNewEmp, (err, res) => {
+      if (err) {
+      console.log(err)
+      return;
+     }
+     displayEmpT()
+      console.log(answer.newDep)
+     });
+  })
+
+
+};
 
 
 
@@ -90,36 +190,27 @@ const newRole = () => {
         message: "What is the salry for this role?", 
      }, 
       {
-        name: "department",
+        name: "departmentID",
         type: "list",
-        message: "What department will this role belong to?",
+        message: "What is the ID of the department they belong to?",
         choices:[
-            "Marketing",
-            "Events",
-            "Engineering",
-            "Community",
-            "Sales",
-            "HR"
+            10,
+            11,
+            12
 
         ] 
     }, 
 
            ])
            .then((answer) => {
-            switch(answer.department){
-            case "Marketing":
-            }
-
-
-
-
-            const sqlNewRole = `INSERT INTO role(id, title, salary, department_id) VALUES (43, "${answer.newRole}", ${answer.salary}, 010);`;
-            db.query(sqlNewDept, (err, res) => {
+            
+            const sqlNewRole = `INSERT INTO role(title, salary, department_id) VALUES ("${answer.newRole}", ${answer.salary}, ${answer.departmentID})`;
+            db.query(sqlNewRole, (err, res) => {
             if (err) {
             console.log(err)
             return;
            }
-            displyDeptT()
+           displayRoleT()
             console.log(answer.newDep)
            });
 });
@@ -143,7 +234,7 @@ const newDeptQ = () => {
            ])
            .then((answer) => {
 
-            const sqlNewDept = `INSERT INTO department (id, department_name) VALUES (999, "${answer.newDep}")`;
+            const sqlNewDept = `INSERT INTO department (department_name) VALUES ("${answer.newDep}")`;
             db.query(sqlNewDept, (err, res) => {
             if (err) {
             console.log(err)
@@ -154,21 +245,7 @@ const newDeptQ = () => {
            });
 });
 };
-      // Insert into dept table
-
-/* function insertDept() {
-  const sqlNewDept = `INSERT INTO department (department_name) VALUES (`${answer.newDep}`)`;
-  db.query(sqlNewDept, (err, res) => {
-    if (err) {
-      res.status(500),json({error: err.message});
-      return;
-    }
-    displyDeptT()
-
-  })
-
-} */
-
+      
 
 
 // Display department Table
@@ -211,7 +288,6 @@ function displayEmpT() {
     });    
 };
 
-  //Add new dept
 
 
 

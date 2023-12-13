@@ -17,14 +17,16 @@ VALUES
 (50, "Sales"); */
 
 /*add a role */
-/* INSERT INTO role(id, title, salary, department_id)
+/* INSERT INTO role (title, salary, department_id)
 VALUES
-(43, "Social Media Specialist", 85000, 010); */
+("Social Media Specialist", 85000, 010); <--- department id must exist already*/
 
 /*add employee */
-/* INSERT INTO employee(id, first_name, last_name, role_id, manager_id)
+/* INSERT INTO employee(first_name, last_name, role_id)
 VALUE (551, "Lety", "Garcia", 011, 1 ); */
 
 
 /*update an employee role */
 /* UPDATE employee SET role_id = 22 WHERE first_name = “Olivai”; */
+
+

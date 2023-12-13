@@ -167,6 +167,7 @@ const newEmp = () => {
      }
      displayEmpT()
       console.log(answer.newDep)
+      startQ();
      });
   })
 
@@ -212,6 +213,7 @@ const newRole = () => {
            }
            displayRoleT()
             console.log(answer.newDep)
+            startQ();
            });
 });
 };
@@ -242,6 +244,7 @@ const newDeptQ = () => {
            }
             displyDeptT()
             console.log(answer.newDep)
+            startQ();
            });
 });
 };
@@ -257,6 +260,9 @@ function displyDeptT() {
        return;
     }
     console.table(res)
+    startQ();
+    
+
     }); 
 
 };
@@ -270,7 +276,7 @@ function displayRoleT() {
     return;
           }
     console.table(res)
-    //startQ()
+    startQ()
     });    
 };
 
@@ -284,7 +290,7 @@ function displayEmpT() {
     return;
           }
     console.table(res)
-    //startQ()
+    startQ()
     });    
 };
 
